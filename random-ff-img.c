@@ -16,14 +16,17 @@ void write_u32(FILE *, uint32_t);
 
 void die(const char *s);
 
-int main(void) {
-    FILE *fp = fopen("image-2.ff", "wb");
+int main(void)
+{
+    FILE *fp = fopen("image.ff", "wb");
     if (fp == NULL) die("failed to open image.ff");
 
     srand(time(NULL));
 
-    const uint32_t width = 20;
-    const uint32_t height = 20;
+    const uint32_t width = 1920;
+    const uint32_t height = 1080;
+
+    const int opaque = 1;
 
     fwrite("farbfeld", 1, (sizeof("farbfeld") - 1), fp);
     write_u32(fp, width); // width
@@ -34,15 +37,18 @@ int main(void) {
             write_u16(fp, random_u16());
             write_u16(fp, random_u16());
             write_u16(fp, random_u16());
-            write_u16(fp, 0xFFFF);
+
+            if (opaque) write_u16(fp, 0xFFFF);
+            else write_u16(fp, random_u16());
         }
     }
 
     fclose(fp);
 }
 
-uint16_t random_u16(void) {
-    return rand() & 0xffff;
+uint16_t random_u16(void)
+{
+    return rand() & 0xffffL;
 }
 
 void write_u16(FILE *fp, uint16_t n)
