@@ -51,7 +51,11 @@ void write_u8(FILE *fp, uint8_t n)
 uint16_t read_u16(FILE *fp)
 {
     uint16_t rv;
-    if (fread(&rv, sizeof(uint16_t), 1, fp) != 1) die("error reading u16");
+    if (fread(&rv, sizeof(uint16_t), 1, fp) != 1) {
+        if (feof(fp)) die("trying to read u16, end of file");
+        else if (ferror(fp)) die("trying to read u16, error");
+        else die("fread");
+    }
     return ntohs(rv);
 }
 uint32_t read_u32(FILE *fp)

@@ -1,18 +1,20 @@
 CFLAGS := -O2
 
-.PHONY: clean
+.PHONY: clean all
 
-random-ff-img: random-ff-img.c
-	$(CC) $(CFLAGS) -o $@ $<
+all: random-ff embed-ff extract-ff
 
-ff-write-to-bits: ff-write-to-bits.c
-	$(CC) $(CFLAGS) -o $@ $<
+random-ff: random-ff.c util.c
+	$(CC) $(CFLAGS) -o $@ $^
 
-ff-low-bytes: ff-low-bytes.c
-	$(CC) $(CFLAGS) -o $@ $<
+embed-ff: embed-ff.c util.c
+	$(CC) $(CFLAGS) -o $@ $^
+
+extract-ff: extract-ff.c util.c
+	$(CC) $(CFLAGS) -o $@ $^
 
 clean:
-	$(RM) ff-get-low-bytes random-ff-img ff-write-to-bits
+	$(RM) extract-ff embed-ff random-ff
 	$(RM) *.ff
 	$(RM) *.bin
 	$(RM) *.png
