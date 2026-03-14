@@ -5,6 +5,12 @@
 #include <stdarg.h>
 #include <stdint.h>
 
+// can use i,j,c if necessary (see random-ff.c)
+#define LOOP_CHANNELS(WIDTH, HEIGHT) \
+    for (uint32_t i = 0; i < (HEIGHT); i++) \
+        for (uint32_t j = 0; j < (WIDTH); j++) \
+            for (int c = 0; c < 4; c++)
+
 void u_read_header(uint32_t *width, uint32_t *height);
 void u_write_header(uint32_t *width, uint32_t *height);
 

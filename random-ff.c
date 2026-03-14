@@ -15,6 +15,7 @@ int main(int argc, char **argv)
 {
     srand(time(NULL));
 
+    int opaque = 1;
     uint32_t width = 1920;
     uint32_t height = 1080;
 
@@ -26,16 +27,10 @@ int main(int argc, char **argv)
         arg++;
     }
 
-    const int opaque = 1;
-
     u_write_header(&width, &height);
-    for (uint32_t h = 0; h < height; h++) {
-        for (uint32_t w = 0; w < width; w++) {
-            for (int c = 0; c < 4; c++) {
-                if ((c & 3) == 3 && opaque) u_w16(0xffffL);
-                else u_w16(random_u16());
-            }
-        }
+    LOOP_CHANNELS(width, height) {
+        if ((c & 3) == 3 && opaque) u_w16(0xffffL);
+        else u_w16(random_u16());
     }
 }
 
