@@ -1,0 +1,44 @@
+* Farbfeld Steganography
+
+A suite of tools to help with embedding and extracting information in [[https://tools.suckless.org/farbfeld/][Farbfeld images]].
+
+** Usage
+
+All utilities take information from standard input and send information to standard output, in the Suckless ~ff2png~ style.
+
+*** Generating Images
+The ~random-ff~ utility creates a random image of dimensions 1920 by 1080 pixels.
+This can be changed with the ~-w WIDTH, -h HEIGHT~ arguments.
+
+This is opaque by default, although there is plans for transparency randomness.
+
+*** Emedding Information into Images
+The ~embed-ff~ utility does what any good eponymous utility should: what it says on the tin.
+Specifically, it is invoked as ~embed-ff DATA < image > image-out~ and tries to write all of bytes from the file ~DATA~
+into the lower byte of each channel of every pixel of ~image~, and outputs to standard out (redirected to ~image-out~.)
+
+This will keep the original data of ~image~ after ~DATA~ if it is smaller than the possible space, and in the opposite case
+simply not all of ~DATA~ is written into ~image~.
+
+*** Extracting Information from Images
+The ~extract-ff~ does the opposite of ~embed-ff~. Specifically, if ~DATA~ perfectly fits into ~image~ with no premature cutoff
+or previous image data left there is the equivalence:
+#+begin_src shell
+embed-ff DATA < image | extract-ff | diff -q DATA -
+#+end_src
+has exit code 0. If ~DATA~ is shorter than ~image~ (in the embeddedable space) then ~extract-ff~ will have garbage data appended.
+
+** Tips
+
+*** Total Embeddable Space
+Note that a Farbfeld image of width $w$ and height $h$ takes up $8wh + 16$ bytes.
+However, the embeddable space is one byte per channel, of which there are $4wh$ bytes to use.
+
+*** Images Inside Images
+To embed a Farbfeld image inside of another, we have to calculate a little bit.
+Turns out, if we have an image of dimensions $W \times H$ we can create a larger $h \times w$ image where
+$$
+2(WH + 2) = wh.
+$$
+It is most preferable to pick this so that $WH + 2$ has as many factors as possible.
+See also [[https://en.wikipedia.org/wiki/Abundant_number][abundant numbers]] and [[https://en.wikipedia.org/wiki/Highly_composite_number][highly composite numbers]].
