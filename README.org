@@ -36,7 +36,7 @@ However, the embeddable space is one byte per channel, of which there are $4wh$ 
 
 *** Images Inside Images
 To embed a Farbfeld image inside of another, we have to calculate a little bit.
-Turns out, if we have an image of dimensions $W \times H$ we can create a larger $h \times w$ image where
+Turns out, if we have an image of dimensions $W \times H$ we can create a larger $w \times h$ image where
 $$
 2(WH + 2) = wh.
 $$
