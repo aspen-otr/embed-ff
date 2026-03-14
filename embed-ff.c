@@ -1,9 +1,3 @@
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <arpa/inet.h>
-#include <time.h>
-
 #include "util.h"
 
 int main(int argc, char **argv)
