@@ -1,6 +1,6 @@
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <stdlib.h>
 
 #include "util.h"
 
@@ -38,4 +38,3 @@ uint16_t random_u16(void)
 {
     return rand() & 0xffffL;
 }
-

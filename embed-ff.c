@@ -1,5 +1,5 @@
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "util.h"
 
@@ -41,9 +41,8 @@ int main(int argc, char **argv)
             continue;
         }
 
-        u_w16((pix &~ 0xffL) | byte);
+        u_w16((pix & ~ 0xffL) | byte);
     }
 
     if (data) fclose(data);
 }
-
