@@ -1,18 +1,34 @@
+#include <string.h>
+#include <stdlib.h>
+
 #include "util.h"
 
 int main(int argc, char **argv)
 {
-    if (argc < 2) u_die("usage: %s [data file]", argv[0]);
-    FILE *data = fopen(argv[1], "rb");
+    if (argc == 1 || argc == 3)
+        u_die("usage: %s [-offset OFFSET] [FILE]", argv[0]);
+
+    int file_index = (argc < 4) ? 1 : 3;
+    FILE *data = fopen(argv[file_index], "rb");
     if (data == NULL) u_die("fopen:");
+
+    uint32_t offset;
+    if (file_index == 1) offset = 0;
+    else {
+        if (strcmp(argv[1], "-offset"))
+            u_die("usage: %s [-offset OFFSET] [FILE]", argv[0]);
+        offset = atol(argv[2]);
+    }
 
     uint32_t w, h;
     u_read_header(&w, &h);
     u_write_header(&w, &h);
 
+    uint32_t cur = 0;
     LOOP_CHANNELS(w, h) {
+        cur++;
         uint16_t pix = u_r16();
-        if (data == NULL) {
+        if (data == NULL || cur <= offset) {
             u_w16(pix);
             continue;
         }
