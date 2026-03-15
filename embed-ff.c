@@ -26,10 +26,10 @@ int main(int argc, char **argv)
 
     uint32_t cur = 0;
     LOOP_CHANNELS(w, h) {
-        cur++;
         uint16_t pix = u_r16();
-        if (data == NULL || cur <= offset) {
+        if (data == NULL || cur < offset) {
             u_w16(pix);
+            cur++;
             continue;
         }
 
