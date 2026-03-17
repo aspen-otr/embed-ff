@@ -4,13 +4,13 @@ CFLAGS := -O2
 
 all: random-ff embed-ff extract-ff
 
-random-ff: random-ff.c util.c
+random-ff: random-ff.o util.o
 	$(CC) $(CFLAGS) -o $@ $^
 
-embed-ff: embed-ff.c util.c
+embed-ff: embed-ff.o util.o
 	$(CC) $(CFLAGS) -o $@ $^
 
-extract-ff: extract-ff.c util.c
+extract-ff: extract-ff.o util.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 clean:
