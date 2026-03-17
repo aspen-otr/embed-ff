@@ -14,7 +14,4 @@ extract-ff: extract-ff.c util.c
 	$(CC) $(CFLAGS) -o $@ $^
 
 clean:
-	$(RM) extract-ff embed-ff random-ff
-	$(RM) *.ff
-	$(RM) *.bin
-	$(RM) *.png
+	git clean -fx
